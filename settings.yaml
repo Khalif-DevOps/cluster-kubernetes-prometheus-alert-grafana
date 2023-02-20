@@ -1,0 +1,37 @@
+---
+# cluster_name est utilisé pour regrouper les nœuds dans un dossier au sein de VirtualBox :
+cluster_name: Kubernetes Cluster
+# Décommentez pour définir les variables d'environnement pour les services tels que crio et kubelet.
+# Par exemple, configurez le cluster pour extraire des images via un proxy.
+# environnement : |
+# HTTP_PROXY=http://mon-proxy:8000
+# HTTPS_PROXY=http://mon-proxy:8000
+# NO_PROXY=127.0.0.1,localhost,master-node,node01,node02,node03
+# Toutes les adresses IP/CIDR doivent être privées et autorisées dans /etc/vbox/networks.conf.
+network:
+  # Les IPs de travail sont simplement incrémentées à partir de l'IP de contrôle.
+  control_ip: 10.0.0.10
+  dns_servers:
+    - 8.8.8.8
+    - 1.1.1.1
+  pod_cidr: 172.16.1.0/16
+  service_cidr: 172.17.1.0/18
+nodes:
+  control:
+    cpu: 4
+    memory: 8000
+  workers:
+    count: 2
+    cpu: 2
+    memory: 4096
+# Montez des dossiers partagés supplémentaires à partir de l'hôte dans chaque machine virtuelle.
+# Notez que le répertoire du projet est automatiquement monté sur /vagrant.
+# shared_folders:
+# host_path: ../images
+# vm_path: /vagrant/images
+software:
+  box: bento/ubuntu-22.04
+  # Pour ignorer l'installation du tableau de bord, définissez sa version sur une valeur vide ou commentez-la :
+  dashboard: 2.7.0
+  kubernetes: 1.26.1-00
+  os: xUbuntu_22.04
